@@ -6,6 +6,8 @@ export async function POST(request: NextRequest) {
   try {
     const body : Record<string, any> = await request.json();
     console.log("POST - Webhook received:", body);
+
+    const event : MetaEvent = body as MetaEvent;
     
     // const ref = doc(db, "events");
     const col = collection(db, "events");
@@ -13,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     await addDoc(col, 
       {
-        ...(body),
+        ...(event),
         createdAt: new Date()
       }
     )
