@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const body : Record<string, any> = await request.json();
     console.log("POST - Webhook received:", body);
 
-    const event : MetaEvent = body as MetaEvent;
+    const metaEvent : MetaEvent = body as MetaEvent;
     
     // const ref = doc(db, "events");
     const col = collection(db, "events");
@@ -15,10 +15,14 @@ export async function POST(request: NextRequest) {
 
     await addDoc(col, 
       {
-        ...(event),
+        ...(metaEvent),
         createdAt: new Date()
       }
     )
+
+    const psid = metaEvent.event[0].messaging[0].sender.id;
+
+    await sendMessageToUser(psid, "Hello, how are you?");
 
     return NextResponse.json(
       { success: true },
@@ -66,4 +70,29 @@ export async function GET(req: NextRequest) {
 
   // Return a 403 Forbidden if the token verification fails
   return new NextResponse('Forbidden', { status: 403 });
+}
+
+
+// send message to user
+async function sendMessageToUser(psid: string, message: string) {
+  try {
+    const response = await fetch(`https://graph.facebook.com/v18.0/${psid}/messages`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.FACEBOOK_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to send message to user: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log("Message sent to user:", data);
+  }
+  catch (error) {
+    console.error("Error sending message to user:", error);
+  }
 }
