@@ -84,7 +84,6 @@ async function sendMessageToUser(psid: string, message: string) {
     const response = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${facebookAccessToken}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${facebookAccessToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
@@ -98,11 +97,13 @@ async function sendMessageToUser(psid: string, message: string) {
       })
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to send message to user: ${response.statusText}`);
-    }
-
     const data = await response.json();
+
+    if (!response.ok || data.error) {
+        console.error("Graph API error:", JSON.stringify(data.error, null, 2));
+        throw new Error(`Failed to send message to user: ${data.error?.message ?? response.statusText}`);
+    }
+    
     console.log("Message sent to user:", data);
   }
   catch (error) {
