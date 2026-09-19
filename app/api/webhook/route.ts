@@ -83,10 +83,12 @@ async function sendMessageToUser(psid: string, message: string) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        "recipient": {"id": psid},
-        "messaging_type": "RESPONSE",
-        "message": {
-          "text": message
+        recipient: {
+          id: psid
+        },
+        messaging_type: "RESPONSE",
+        message: {
+          text: message
         }
       })
     });
