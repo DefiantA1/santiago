@@ -30,8 +30,9 @@ export async function POST(request: NextRequest) {
       !incomingMessage.is_echo &&
       psid !== pageId
     ) {
-      const reply = await getAutoReply(incomingMessage.text);
-      await sendMessageToUser(psid, reply);
+        const reply = await getAutoReply(incomingMessage.text);
+        console.log("SelectedReply:", reply);
+        //   await sendMessageToUser(psid, reply);
     }
 
     return NextResponse.json(
