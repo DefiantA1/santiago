@@ -73,19 +73,19 @@ async function sendMessageToUser(psid: string, message: string) {
   
     try {
         const response = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${facebookAccessToken}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            recipient: {
-            id: psid
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            messaging_type: "RESPONSE",
-            message: {
-            text: message
-            }
-        })
+            body: JSON.stringify({ 
+                recipient: {
+                    id: psid
+                },
+                messaging_type: "RESPONSE",
+                message: {
+                    text: message
+                }
+            })
         });
 
         const data = await response.json();
