@@ -76,13 +76,19 @@ export async function GET(req: NextRequest) {
 // send message to user
 async function sendMessageToUser(psid: string, message: string) {
   try {
-    const response = await fetch(`https://graph.facebook.com/v18.0/${psid}/messages`, {
+    const response = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${process.env.FACEBOOK_ACCESS_TOKEN}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.FACEBOOK_ACCESS_TOKEN}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ 
+        "recipient": {"id": psid},
+        "messaging_type": "RESPONSE",
+        "message": {
+          "text": message
+        }
+      })
     });
 
     if (!response.ok) {
