@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-screen" style={{ backgroundColor: "#f0f0f0" }}>
       <div className="flex flex-col items-start justify-center text-black">
-        <h1 className="text-2xl font-bold">Santiago Project</h1>
+        <h1 className="text-2xl font-bold">Santiago Sentry Project</h1>
         <p className="text-sm text-gray-500 mb-4">Customers: {conversations.length}</p>
         {conversations.map((c: Conversation, i) => (
           <div key={i} className="mb-4 p-4 rounded-md" style={{ backgroundColor: "#fff" }}>
