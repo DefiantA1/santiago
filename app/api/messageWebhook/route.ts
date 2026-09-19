@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     ) {
         const reply = await getAutoReply(incomingMessage.text);
         console.log("SelectedReply:", reply);
-        //   await sendMessageToUser(psid, reply);
+        await sendMessageToUser(psid, reply);
     }
 
     return NextResponse.json(
