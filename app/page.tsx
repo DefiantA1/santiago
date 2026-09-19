@@ -1,8 +1,6 @@
 "use client";
 
-import { collection, getDocs, limit, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "./firebase/firebase";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
