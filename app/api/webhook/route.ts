@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       }
     )
 
-    const psid = metaEvent.event[0].messaging[0].sender.id;
+    const psid = metaEvent.entry[0].messaging[0].sender.id;
 
     await sendMessageToUser(psid, "Hello, how are you?");
 

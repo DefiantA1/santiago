@@ -1,10 +1,10 @@
 type MetaEvent = {
   createdAt: string;
   object: string;
-  event: EventData[];
+  entry: EntryData[];
 }
 
-type EventData = {
+type EntryData = {
   id: string;
   time: number;
   messaging: MessagingEvent[];
