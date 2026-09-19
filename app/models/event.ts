@@ -11,7 +11,7 @@ type EntryData = {
 }
 
 type MessagingEvent = {
-    message: MessageData;
+    message?: MessageData;
     recipient: Recipient;
     sender: Sender;
     timestamp: number;
@@ -28,5 +28,6 @@ type Sender = {
 
 type MessageData = {
     mid: string;
-    text:string
+    text?: string;
+    is_echo?: boolean;
 }

@@ -1,5 +1,6 @@
 import { db } from "@/app/firebase/firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { getAutoReply } from "@/app/openai/classifyMessage";
+import { addDoc, collection } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -18,9 +19,20 @@ export async function POST(request: NextRequest) {
       }
     )
 
-    const psid = metaEvent.entry[0].messaging[0].sender.id;
+    const messagingEvent = metaEvent.entry[0]?.messaging[0];
+    const incomingMessage = messagingEvent?.message;
+    const psid = messagingEvent?.sender.id;
+    const pageId = process.env.PAGE_ID;
 
-    await sendMessageToUser(psid, "Hello, how are you?");
+    if (
+      psid &&
+      incomingMessage?.text &&
+      !incomingMessage.is_echo &&
+      psid !== pageId
+    ) {
+      const reply = await getAutoReply(incomingMessage.text);
+      await sendMessageToUser(psid, reply);
+    }
 
     return NextResponse.json(
       { success: true },
