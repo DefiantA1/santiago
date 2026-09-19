@@ -19,11 +19,11 @@ type MessagingEvent = {
 
 
 type Recipient = {
-    id: string;
+    id: string; // psid
 }
 
 type Sender = {
-    id: string;
+    id: string; // psid
 }
 
 type MessageData = {
