@@ -18,17 +18,24 @@ export const MESSAGE_CATEGORIES: MessageCategory[] = [
     ],
   },
   {
-    id: "hours",
-    description: "Questions about opening hours, availability, or when someone will reply",
+    id: "next_shipment_date",
+    description: "Questions about the next shipment date",
     responses: [
-      "We're available during business hours and will get back to you as soon as we can.",
+      "The next shipment date is September 20th, 2026",
     ],
   },
   {
-    id: "help",
-    description: "Someone asking for help, support, or more information",
+    id: "how_to_pay",
+    description: "Questions about how to pay",
     responses: [
-      "Happy to help. Could you share a bit more about what you need?",
+      "You can deposit 60% to my nz bank account or you can pay in cash to our agent in Tonga",
     ],
   },
+  {
+    id: "how_to_order",
+    description: "Questions about how to order",
+    responses: [
+      "You can use click and collect or I can pay for your products online or you can send me your package to my address",
+    ],
+  }
 ];
