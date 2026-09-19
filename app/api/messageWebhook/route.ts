@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
   const challenge = searchParams.get('hub.challenge');
 
   // Replace this with the custom secret string you type into the Meta Dashboard
-  const VERIFY_TOKEN = process.env.NEXT_PUBLIC_VERIFY_TOKEN; 
+  const VERIFY_TOKEN = process.env.VERIFY_TOKEN; 
 
   if (mode && token) {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
