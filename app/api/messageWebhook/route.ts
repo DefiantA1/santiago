@@ -1,5 +1,6 @@
 import { db } from "@/app/firebase/firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { getAutoReply } from "@/app/openai/classifyMessage";
+import { addDoc, collection } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -18,9 +19,21 @@ export async function POST(request: NextRequest) {
       }
     )
 
-    const psid = metaEvent.entry[0].messaging[0].sender.id;
+    const messagingEvent = metaEvent.entry[0]?.messaging[0];
+    const incomingMessage = messagingEvent?.message;
+    const psid = messagingEvent?.sender.id;
+    const pageId = process.env.PAGE_ID;
 
-    await sendMessageToUser(psid, "Hello, how are you?");
+    if (
+      psid &&
+      incomingMessage?.text &&
+      !incomingMessage.is_echo &&
+      psid !== pageId
+    ) {
+        const reply = await getAutoReply(incomingMessage.text);
+        console.log("SelectedReply:", reply);
+        //   await sendMessageToUser(psid, reply);
+    }
 
     return NextResponse.json(
       { success: true },
@@ -73,19 +86,19 @@ async function sendMessageToUser(psid: string, message: string) {
   
     try {
         const response = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${facebookAccessToken}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            recipient: {
-            id: psid
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            messaging_type: "RESPONSE",
-            message: {
-            text: message
-            }
-        })
+            body: JSON.stringify({ 
+                recipient: {
+                    id: psid
+                },
+                messaging_type: "RESPONSE",
+                message: {
+                    text: message
+                }
+            })
         });
 
         const data = await response.json();
