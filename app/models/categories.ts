@@ -21,7 +21,7 @@ export const MESSAGE_CATEGORIES: MessageCategory[] = [
     id: "next_shipment_date",
     description: "Questions about the next shipment date",
     responses: [
-      "The next shipment date is September 20th, 2026",
+      "The next shipment date is November 15th, 2026",
     ],
   },
   {
