@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     )
 
     const psid = metaEvent.entry[0].messaging[0].sender.id;
+    console.log("PSID:", psid);
 
     await sendMessageToUser(psid, "Hello, how are you?");
 
@@ -75,11 +76,15 @@ export async function GET(req: NextRequest) {
 
 // send message to user
 async function sendMessageToUser(psid: string, message: string) {
-  try {
-    const response = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${process.env.FACEBOOK_ACCESS_TOKEN}`, {
+  
+    const facebookAccessToken = process.env.FACEBOOK_ACCESS_TOKEN;  
+    console.log("Facebook Access Token:", facebookAccessToken);
+  
+    try {
+    const response = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${facebookAccessToken}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.FACEBOOK_ACCESS_TOKEN}`,
+        'Authorization': `Bearer ${facebookAccessToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
